@@ -1,22 +1,63 @@
-# 1TB-only trackers for Galaxy Tab S11 Ultra (US market + direct Samsung).
-# 'must_match' ensures the page actually mentions 1TB to avoid variant mixups.
+# Galaxy Tab S11 Ultra — 1TB-only trackers
+# Keep 'must_match' to prevent variant mix-ups (checks for "1TB" / "1000GB" in the fetched HTML)
+
 retailers:
-  - name: Samsung US (1TB Gray, Wi‑Fi)
+  # --- Samsung Direct (US) ---
+  - name: Samsung US (1TB Gray, Wi-Fi)
     url: https://www.samsung.com/us/tablets/galaxy-tab-s11/buy/galaxy-tab-s11-ultra-1tb-gray-wi-fi-sku-sm-x930nzaixar/
     desired_price: 1499.99
-    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
-  - name: Samsung US (1TB Silver, Wi‑Fi)
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'  # MSRP currently shown as $1,619.99
+
+  - name: Samsung US (1TB Silver, Wi-Fi)
     url: https://www.samsung.com/us/tablets/galaxy-tab-s11/buy/galaxy-tab-s11-ultra-1tb-silver-wi-fi-sku-sm-x930nzsixar/
     desired_price: 1499.99
-    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # Optional: Samsung Business (same pricing, separate site)
+  - name: Samsung Business US (1TB Gray, Wi-Fi)
+    url: https://www.samsung.com/us/business/tablets/galaxy-tab-s11/buy/galaxy-tab-s11-ultra-1tb-gray-wi-fi-sku-sm-x930nzaixar/
+    desired_price: 1499.99
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # --- Best Buy (US) ---
   - name: Best Buy (1TB Gray)
     url: https://www.bestbuy.com/product/samsung-galaxy-tab-s11-ultra-14-6-1tb-wi-fi-with-s-pen-gray/JJGRF39WJT
     desired_price: 1499.99
-    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
   - name: Best Buy (1TB Silver)
     url: https://www.bestbuy.com/product/samsung-galaxy-tab-s11-ultra-14-6-1tb-wi-fi-with-s-pen-silver/JJGRF39WX2
     desired_price: 1499.99
-    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
-# Notes:
-# - Costco/Walmart/B&H 1TB product pages are not consistently published or point to S10 listings; excluded to avoid noise.
-# - You can append new entries later; keep 'must_match' for safety.
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # --- Newegg (US) ---
+  - name: Newegg (1TB Gray)
+    url: https://www.newegg.com/samsung-14-6-16gb-memory-gray/p/1TS-0002-006M3
+    desired_price: 1499.99
+    must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # --- The rest (commented out: noisy / not clearly 1TB S11 Ultra US) ---
+
+  # # Amazon US — marketplace listings are messy; often wrong region/size.
+  # - name: Amazon US (1TB)
+  #   url: https://www.amazon.com/dp/XXXXXXXXXX
+  #   desired_price: 1499.99
+  #   must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # # Walmart US — lots of marketplace entries; confirm it’s *S11 Ultra 1TB* before enabling.
+  # - name: Walmart (1TB)
+  #   url: https://www.walmart.com/ip/XXXXXXXXXX
+  #   desired_price: 1499.99
+  #   must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # # B&H — currently shows S10 Ultra 1TB, not S11 Ultra (skip unless a real S11 page appears).
+  # - name: B&H (1TB)
+  #   url: https://www.bhphotovideo.com/c/product/XXXXXXXXXX
+  #   desired_price: 1499.99
+  #   must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
+
+  # # Costco — no clean S11 Ultra 1TB product page visible yet.
+  # - name: Costco (1TB)
+  #   url: https://www.costco.com/XXXXXXXXXX.html
+  #   desired_price: 1499.99
+  #   must_match: '(^|\b)1\s*TB(\b|$)|1000\s?GB'
