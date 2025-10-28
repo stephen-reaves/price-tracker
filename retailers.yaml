@@ -1,0 +1,22 @@
+# 1TB-only trackers for Galaxy Tab S11 Ultra (US market + direct Samsung).
+# 'must_match' ensures the page actually mentions 1TB to avoid variant mixups.
+retailers:
+  - name: Samsung US (1TB Gray, Wi‑Fi)
+    url: https://www.samsung.com/us/tablets/galaxy-tab-s11/buy/galaxy-tab-s11-ultra-1tb-gray-wi-fi-sku-sm-x930nzaixar/
+    desired_price: 1499.99
+    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+  - name: Samsung US (1TB Silver, Wi‑Fi)
+    url: https://www.samsung.com/us/tablets/galaxy-tab-s11/buy/galaxy-tab-s11-ultra-1tb-silver-wi-fi-sku-sm-x930nzsixar/
+    desired_price: 1499.99
+    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+  - name: Best Buy (1TB Gray)
+    url: https://www.bestbuy.com/product/samsung-galaxy-tab-s11-ultra-14-6-1tb-wi-fi-with-s-pen-gray/JJGRF39WJT
+    desired_price: 1499.99
+    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+  - name: Best Buy (1TB Silver)
+    url: https://www.bestbuy.com/product/samsung-galaxy-tab-s11-ultra-14-6-1tb-wi-fi-with-s-pen-silver/JJGRF39WX2
+    desired_price: 1499.99
+    must_match: "(^|\b)1\s*TB(\b|$)|1000\s?GB"
+# Notes:
+# - Costco/Walmart/B&H 1TB product pages are not consistently published or point to S10 listings; excluded to avoid noise.
+# - You can append new entries later; keep 'must_match' for safety.
