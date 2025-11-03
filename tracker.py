@@ -78,7 +78,7 @@ def extract_price_candidates(html: str) -> List[float]:
         except Exception:
             continue
     # sanity filter: tablets should be priced ~$300-$3000
-    candidates = [c for c in candidates if 300 <= c <= 3000]
+    candidates = [c for c in candidates if 999 <= c <= 3000]
     # de-dup round to cents
     uniq = sorted(set([round(c, 2) for c in candidates]))
     return uniq
