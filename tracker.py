@@ -40,11 +40,17 @@ def save_state(path: str, data: Dict[str, Any]) -> None:
     os.replace(tmp, path)
 
 
-PRICE_RE = re.compile(r"(\$|USD\s*)?([0-9]{2,4}(?:[,][0-9]{3})*(?:\.[0-9]{2})?)")
+# Require $ or 'USD' and prefer real price shapes
+PRICE_RE = re.compile(
+    r'(?i)(?:\bUSD\s*)?\$\s*([0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{2})?)|'
+    r'(?i)\bUSD\s*([0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{2})?)'
+)
+
+EXCLUDE_NEAR = re.compile(r'(?i)\b(GB|mAh|nit|nits|inch|in\.|ppi|reviews?|ratings?|points?|/mo|per month|%|trade[- ]?in)\b')
 
 def extract_price_candidates(html: str) -> List[float]:
-    # prefer JSON-LD schema.org prices first
     candidates = []
+    # JSON-LD as you already have...
     try:
         soup = BeautifulSoup(html, "html.parser")
         for tag in soup.find_all("script", type=lambda t: t and "ld+json" in t):
@@ -69,18 +75,26 @@ def extract_price_candidates(html: str) -> List[float]:
     except Exception:
         pass
 
-    # fallback: regex search for $1,234.56 patterns
+    # Fallback: only amounts with $ or USD, and ignore unit/finance context nearby
+    window = 40  # chars around the match to scan for bad context
     for m in PRICE_RE.finditer(html):
-        raw = m.group(2)
+        raw = m.group(1) or m.group(2)
+        if not raw:
+            continue
+        start = max(0, m.start() - window)
+        end = min(len(html), m.end() + window)
+        context = html[start:end]
+        if EXCLUDE_NEAR.search(context):
+            continue
         try:
             val = float(raw.replace(",", ""))
             candidates.append(val)
         except Exception:
             continue
-    # sanity filter: tablets should be priced ~$300-$3000
-    candidates = [c for c in candidates if 999 <= c <= 3000]
-    # de-dup round to cents
-    uniq = sorted(set([round(c, 2) for c in candidates]))
+
+    # 1TB S11 Ultra isn’t < $1,100 in reality; tighten floor to kill noise
+    candidates = [c for c in candidates if 1100 <= c <= 3000]
+    uniq = sorted(set(round(c, 2) for c in candidates))
     return uniq
 
 
